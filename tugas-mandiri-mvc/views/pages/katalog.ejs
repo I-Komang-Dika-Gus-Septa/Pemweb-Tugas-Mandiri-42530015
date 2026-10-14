@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+
+<h1><%= pageTitle %></h1>
+
+<!-- Form Tambah Buku Baru -->
+<div style="background: #ffffff; border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+    <h2 style="margin-top: 0; font-size: 18px; color: #1e293b;">Form Tambah Buku Baru</h2>
+    <form action="/katalog/tambah" method="POST">
+        <div style="margin-bottom: 12px;">
+            <label for="judulBuku" style="font-weight: 600; font-size: 14px; display: block; margin-bottom: 4px;">Judul Buku:</label>
+            <input type="text" id="judulBuku" name="judulBuku" required placeholder="Masukkan judul buku..." style="width: 100%; padding: 10px; box-sizing: border-box;">
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+            <label for="kategoriBuku" style="font-weight: 600; font-size: 14px; display: block; margin-bottom: 4px;">Kategori Buku:</label>
+            <select id="kategoriBuku" name="kategoriBuku" required style="width: 100%; padding: 10px; box-sizing: border-box;">
+                <option value="">-- Pilih Kategori --</option>
+                <option value="Teknologi">Teknologi</option>
+                <option value="Ilmu Komputer">Ilmu Komputer</option>
+                <option value="Jaringan">Jaringan</option>
+                <option value="Sains">Sains</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+            <label for="stokBuku" style="font-weight: 600; font-size: 14px; display: block; margin-bottom: 4px;">Stok Buku:</label>
+            <input type="number" id="stokBuku" name="stokBuku" required min="1" placeholder="Masukkan jumlah stok..." style="width: 100%; padding: 10px; box-sizing: border-box;">
+        </div>
+
+        <button type="submit" class="btn-primary">Simpan Buku</button>
+    </form>
+</div>
+
+<!-- Daftar Koleksi Buku -->
+<h2>Daftar Koleksi Buku</h2>
+<table>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Judul Buku</th>
+            <th>Kategori</th>
+            <th>Stok</th>
+            <th style="text-align: center;">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (bukuList && bukuList.length > 0) { %>
+            <% bukuList.forEach((buku, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= buku.judul %></td>
+                    <td><%= buku.kategori %></td>
+                    <td><%= buku.stok %></td>
+                    <td style="text-align: center;">
+                        <a href="/katalog/hapus/<%= buku.id %>" onclick="return confirm('Yakin ingin menghapus buku ini?')" class="btn-delete">Hapus</a>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } else { %>
+            <tr>
+                <td colspan="5" style="text-align: center; color: #64748b;">Tidak ada data buku ditemukan.</td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<%- include('../partials/footer') %>
